@@ -91,11 +91,11 @@ const TappingCircles: React.FC<TappingCirclesProps> = ({
         {/* Instrucciones */}
         <div className="text-center mb-8">
           <h2 className="text-xl font-semibold text-gray-200 mb-4">
-            {isActive ? 'Sigue los círculos con tus ojos' : 'Círculos pausados'}
+            {isActive ? 'Haz palmaditas siguiendo los círculos' : 'Círculos pausados'}
           </h2>
           <p className="text-gray-400 max-w-md">
             {isActive 
-              ? 'Mueve tus ojos siguiendo el círculo que se ilumina. Esto ayuda a tu cerebro a procesar emociones.'
+              ? 'Haz palmaditas alternas con tus manos siguiendo el círculo que se ilumina. Esto ayuda a tu cerebro a procesar emociones.'
               : 'Presiona "Iniciar" para comenzar la estimulación bilateral.'
             }
           </p>
