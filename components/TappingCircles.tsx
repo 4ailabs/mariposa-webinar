@@ -14,6 +14,33 @@ const TappingCircles: React.FC<TappingCirclesProps> = ({
   const [currentSide, setCurrentSide] = useState<TapSide>('left');
   const [isActive, setIsActive] = useState(true);
   const [currentBPM, setCurrentBPM] = useState(bpm);
+  const [audioEnabled, setAudioEnabled] = useState(false);
+  const [hasHeadphones, setHasHeadphones] = useState(false);
+
+  // Función para crear beep estéreo
+  const createStereoBeep = useCallback((side: TapSide, frequency: number = 800) => {
+    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    const pannerNode = audioContext.createStereoPanner();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(pannerNode);
+    pannerNode.connect(audioContext.destination);
+    
+    oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+    oscillator.type = 'sine';
+    
+    // Configurar canal estéreo (izquierda = -1, derecha = 1)
+    pannerNode.pan.setValueAtTime(side === 'left' ? -1 : 1, audioContext.currentTime);
+    
+    gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+    gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.01);
+    gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.1);
+    
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.1);
+  }, []);
 
   // Función para vibración háptica
   const hapticTap = useCallback((side: TapSide) => {
@@ -22,7 +49,36 @@ const TappingCircles: React.FC<TappingCirclesProps> = ({
     }
   }, []);
 
-  // Intervalo de tapping para feedback visual y háptico
+  // Detectar auriculares
+  useEffect(() => {
+    const detectHeadphones = async () => {
+      try {
+        const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        // Crear un tono muy silencioso para detectar
+        oscillator.frequency.setValueAtTime(440, audioContext.currentTime);
+        oscillator.type = 'sine';
+        gainNode.gain.setValueAtTime(0.001, audioContext.currentTime);
+        
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + 0.1);
+        
+        // Si no hay error, probablemente hay auriculares
+        setHasHeadphones(true);
+      } catch (error) {
+        setHasHeadphones(false);
+      }
+    };
+
+    detectHeadphones();
+  }, []);
+
+  // Intervalo de tapping para feedback visual, háptico y audio
   useEffect(() => {
     if (!isActive) return;
 
@@ -31,12 +87,18 @@ const TappingCircles: React.FC<TappingCirclesProps> = ({
       setCurrentSide(prevSide => {
         const newSide = prevSide === 'left' ? 'right' : 'left';
         hapticTap(newSide);
+        
+        // Reproducir beep si el audio está habilitado
+        if (audioEnabled) {
+          createStereoBeep(newSide);
+        }
+        
         return newSide;
       });
     }, tapIntervalMs / 2);
 
     return () => clearInterval(tapTimer);
-  }, [currentBPM, hapticTap, isActive]);
+  }, [currentBPM, hapticTap, isActive, audioEnabled, createStereoBeep]);
 
   const handleToggle = () => {
     setIsActive(prev => !prev);
@@ -101,7 +163,7 @@ const TappingCircles: React.FC<TappingCirclesProps> = ({
             }
           </p>
           
-          {/* Controles de velocidad */}
+          {/* Controles de velocidad y audio */}
           <div className="mt-6 flex flex-col items-center gap-4">
             <div className="flex gap-2">
               <button
@@ -124,6 +186,34 @@ const TappingCircles: React.FC<TappingCirclesProps> = ({
               >
                 Rápido (90 BPM)
               </button>
+            </div>
+            
+            {/* Control de audio */}
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => setAudioEnabled(!audioEnabled)}
+                disabled={!hasHeadphones}
+                className={`px-4 py-2 rounded-lg transition-colors text-sm flex items-center gap-2 ${
+                  audioEnabled 
+                    ? 'bg-green-600 text-white' 
+                    : hasHeadphones 
+                      ? 'bg-gray-700 hover:bg-gray-600 text-gray-300' 
+                      : 'bg-gray-800 text-gray-500 cursor-not-allowed'
+                }`}
+              >
+                {audioEnabled ? 'Sonido ON' : 'Sonido OFF'}
+              </button>
+              
+              <div className="flex flex-col items-center gap-1">
+                {!hasHeadphones && (
+                  <span className="text-xs text-yellow-400">
+                    Conecta auriculares para audio
+                  </span>
+                )}
+                <span className="text-xs text-gray-500">
+                  Nota: El sonido solo funciona con auriculares
+                </span>
+              </div>
             </div>
             
             {isActive && (
