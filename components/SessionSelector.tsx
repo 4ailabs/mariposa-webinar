@@ -40,6 +40,25 @@ const SessionSelector: React.FC<SessionSelectorProps> = ({ sessions, onSelectSes
     }
   };
 
+  const getSessionIconColor = (sessionId: string): string => {
+    switch (sessionId) {
+      case 'emdr-protocolo-completo':
+        return 'bg-gradient-to-br from-blue-500 to-blue-600'; // Azul para protocolo completo
+      case 'emdr-sesion-rapida':
+        return 'bg-gradient-to-br from-orange-500 to-orange-600'; // Naranja para sesión rápida
+      case 'emdr-recursos-positivos':
+        return 'bg-gradient-to-br from-yellow-500 to-yellow-600'; // Amarillo para recursos positivos
+      case 'emdr-lugar-seguro':
+        return 'bg-gradient-to-br from-green-500 to-green-600'; // Verde para lugar seguro
+      case 'emdr-procesamiento-rapido':
+        return 'bg-gradient-to-br from-purple-500 to-purple-600'; // Púrpura para procesamiento rápido
+      case 'emdr-autocuidado-diario':
+        return 'bg-gradient-to-br from-pink-500 to-pink-600'; // Rosa para autocuidado
+      default:
+        return 'bg-gradient-to-br from-gray-500 to-gray-600';
+    }
+  };
+
   const getSessionDescription = (sessionId: string): string => {
     switch (sessionId) {
       case 'emdr-protocolo-completo':
@@ -130,7 +149,7 @@ const SessionSelector: React.FC<SessionSelectorProps> = ({ sessions, onSelectSes
                 <div className="relative">
                   <div className="flex items-start gap-4">
                     {/* Icon */}
-                    <div className="flex-shrink-0 w-12 h-12 bg-gray-600 rounded-xl flex items-center justify-center text-white shadow-lg group-hover:bg-gray-500 group-hover:scale-110 transition-all duration-300">
+                    <div className={`flex-shrink-0 w-12 h-12 ${getSessionIconColor(session.id)} rounded-xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-all duration-300`}>
                       {getSessionIcon(session.id)}
                     </div>
                     
