@@ -35,8 +35,8 @@ const App: React.FC = () => {
   };
 
   return (
-    <main className="bg-gray-900 text-gray-100 min-h-screen w-full flex flex-col items-center justify-center font-sans p-4">
-      <div className="w-full max-w-md mx-auto">
+    <main className="bg-gradient-to-br from-gray-900 via-purple-900/20 to-gray-900 text-gray-100 min-h-screen w-full flex flex-col items-center font-sans overflow-x-hidden">
+      <div className="w-full max-w-2xl mx-auto flex-1 flex flex-col">
         {renderContent()}
       </div>
     </main>
