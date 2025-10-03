@@ -72,7 +72,7 @@ const TappingCircles: React.FC<TappingCirclesProps> = ({
                 : 'bg-green-600 hover:bg-green-500'
             }`}
           >
-            {isActive ? '⏸️ Pausar' : '▶️ Iniciar'}
+            {isActive ? 'Pausar' : 'Iniciar'}
           </button>
           
           {onComplete && (
@@ -80,7 +80,7 @@ const TappingCircles: React.FC<TappingCirclesProps> = ({
               onClick={handleComplete}
               className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors"
             >
-              ✕ Cerrar
+              Cerrar
             </button>
           )}
         </div>
@@ -118,7 +118,7 @@ const TappingCircles: React.FC<TappingCirclesProps> = ({
         {isActive && (
           <div className="mt-8 text-center">
             <p className="text-sm text-gray-500">
-              {currentSide === 'left' ? '👁️ Izquierda' : '👁️ Derecha'}
+              {currentSide === 'left' ? 'Izquierda' : 'Derecha'}
             </p>
           </div>
         )}
