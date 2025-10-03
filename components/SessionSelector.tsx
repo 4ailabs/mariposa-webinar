@@ -65,19 +65,19 @@ const SessionSelector: React.FC<SessionSelectorProps> = ({ sessions, onSelectSes
   const getSessionIcon = (sessionId: string) => {
     switch (sessionId) {
       case 'emdr-protocolo-completo':
-        return <Brain className="w-6 h-6 sm:w-7 sm:h-7" />;
+        return <Brain className="w-5 h-5 sm:w-6 sm:h-6" />;
       case 'emdr-sesion-rapida':
-        return <Zap className="w-6 h-6 sm:w-7 sm:h-7" />;
+        return <Zap className="w-5 h-5 sm:w-6 sm:h-6" />;
       case 'emdr-recursos-positivos':
-        return <Star className="w-6 h-6 sm:w-7 sm:h-7" />;
+        return <Star className="w-5 h-5 sm:w-6 sm:h-6" />;
       case 'emdr-lugar-seguro':
-        return <Shield className="w-6 h-6 sm:w-7 sm:h-7" />;
+        return <Shield className="w-5 h-5 sm:w-6 sm:h-6" />;
       case 'emdr-procesamiento-rapido':
-        return <Sparkles className="w-6 h-6 sm:w-7 sm:h-7" />;
+        return <Sparkles className="w-5 h-5 sm:w-6 sm:h-6" />;
       case 'emdr-autocuidado-diario':
-        return <Heart className="w-6 h-6 sm:w-7 sm:h-7" />;
+        return <Heart className="w-5 h-5 sm:w-6 sm:h-6" />;
       default:
-        return <PlayCircle className="w-6 h-6 sm:w-7 sm:h-7" />;
+        return <PlayCircle className="w-5 h-5 sm:w-6 sm:h-6" />;
     }
   };
 
@@ -180,7 +180,7 @@ const SessionSelector: React.FC<SessionSelectorProps> = ({ sessions, onSelectSes
               <button
                 key={session.id}
                 onClick={() => handleSessionClick(session)}
-                className={`group relative overflow-hidden ${isPremiumSession(session.id) && !isAuthenticated ? 'bg-gray-900 border-2 border-orange-500/50' : 'bg-gray-800 border border-gray-700'} rounded-2xl p-6 sm:p-8 text-left hover:bg-gray-700 hover:border-gray-600 hover:shadow-xl hover:shadow-gray-900/20 active:scale-[0.98] lg:hover:scale-[1.02] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500 touch-manipulation animate-slide-up`}
+                className={`group relative overflow-hidden ${isPremiumSession(session.id) && !isAuthenticated ? 'bg-gray-900 border-2 border-orange-500/50' : 'bg-gray-800 border border-gray-700'} rounded-xl p-4 sm:p-5 text-left hover:bg-gray-700 hover:border-gray-600 hover:shadow-xl hover:shadow-gray-900/20 active:scale-[0.98] lg:hover:scale-[1.02] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500 touch-manipulation animate-slide-up`}
                 style={{
                   animationDelay: `${index * 100}ms`
                 }}
@@ -188,9 +188,9 @@ const SessionSelector: React.FC<SessionSelectorProps> = ({ sessions, onSelectSes
                 
                 {/* Content */}
                 <div className="relative">
-                  <div className="flex items-start gap-4 sm:gap-6">
+                  <div className="flex items-start gap-3 sm:gap-4">
                     {/* Icon */}
-                    <div className={`flex-shrink-0 w-14 h-14 sm:w-16 sm:h-16 ${isPremiumSession(session.id) && !isAuthenticated ? 'bg-gray-700' : getSessionIconColor(session.id)} rounded-xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-all duration-300 relative`}>
+                    <div className={`flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 ${isPremiumSession(session.id) && !isAuthenticated ? 'bg-gray-700' : getSessionIconColor(session.id)} rounded-lg flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-all duration-300 relative`}>
                       {isPremiumSession(session.id) && !isAuthenticated ? (
                         <Lock className="w-6 h-6 sm:w-7 sm:h-7" />
                       ) : (
@@ -205,8 +205,8 @@ const SessionSelector: React.FC<SessionSelectorProps> = ({ sessions, onSelectSes
                     
                     {/* Content */}
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-2">
-                        <h3 className="text-lg sm:text-xl font-bold text-gray-100 group-hover:text-white transition-colors leading-tight">
+                      <div className="flex items-center gap-2 mb-1">
+                        <h3 className="text-base sm:text-lg font-bold text-gray-100 group-hover:text-white transition-colors leading-tight">
                           {session.title}
                         </h3>
                         {isPremiumSession(session.id) && !isAuthenticated && (
@@ -216,26 +216,26 @@ const SessionSelector: React.FC<SessionSelectorProps> = ({ sessions, onSelectSes
                           </span>
                         )}
                       </div>
-                      <p className="text-sm sm:text-base text-gray-400 group-hover:text-gray-300 transition-colors leading-relaxed mb-4">
+                      <p className="text-sm text-gray-400 group-hover:text-gray-300 transition-colors leading-relaxed mb-3">
                         {getSessionDescription(session.id)}
                       </p>
                       
                       {/* Stats */}
-                      <div className="flex items-center gap-4 flex-wrap">
-                        <span className="inline-flex items-center gap-2 bg-gray-700 text-gray-300 px-3 py-2 rounded-lg text-sm font-medium border border-gray-600">
-                          <Clock size={16} />
+                      <div className="flex items-center gap-3 flex-wrap">
+                        <span className="inline-flex items-center gap-1.5 bg-gray-700 text-gray-300 px-2 py-1.5 rounded-lg text-xs font-medium border border-gray-600">
+                          <Clock size={14} />
                           {formatDuration(session.duration)}
                         </span>
-                        <span className="inline-flex items-center gap-2 bg-gray-800/50 text-gray-300 px-3 py-2 rounded-lg text-sm border border-gray-700/50">
-                          <PlayCircle size={16} />
+                        <span className="inline-flex items-center gap-1.5 bg-gray-800/50 text-gray-300 px-2 py-1.5 rounded-lg text-xs border border-gray-700/50">
+                          <PlayCircle size={14} />
                           {session.phases.length} pasos
                         </span>
                       </div>
                     </div>
                     
                     {/* Arrow */}
-                    <div className="flex-shrink-0 w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center group-hover:bg-gray-600 transition-colors duration-300">
-                      <svg className="w-4 h-4 text-gray-400 group-hover:text-white transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="flex-shrink-0 w-6 h-6 bg-white/10 rounded-lg flex items-center justify-center group-hover:bg-gray-600 transition-colors duration-300">
+                      <svg className="w-3 h-3 text-gray-400 group-hover:text-white transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
                     </div>
