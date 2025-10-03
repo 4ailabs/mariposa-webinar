@@ -172,36 +172,13 @@ const SessionSelector: React.FC<SessionSelectorProps> = ({ sessions, onSelectSes
           </div>
           
           {/* Footer */}
-          <div className="mt-8">
-            <div className="bg-gradient-to-br from-purple-900/30 to-pink-900/30 backdrop-blur-sm border border-purple-700/30 rounded-2xl p-6 sm:p-8">
-              <div className="text-center space-y-4">
-                <div className="flex items-center justify-center gap-2 mb-4">
-                  <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
-                    <Sparkles className="w-4 h-4 text-white" />
-                  </div>
-                  <p className="text-lg font-semibold text-purple-200">
-                    Herramienta oficial del Seminario
-                  </p>
-                </div>
-                
-                <div className="grid gap-3 text-sm">
-                  <div className="flex items-center justify-center gap-2 text-gray-300">
-                    <Brain className="w-4 h-4 text-blue-400" />
-                    <span>Las palmaditas alternas ayudan a tu cerebro a procesar emociones difíciles</span>
-                  </div>
-                  <div className="flex items-center justify-center gap-2 text-gray-300">
-                    <Shield className="w-4 h-4 text-green-400" />
-                    <span>Si tienes traumas severos o te sientes muy mal, busca ayuda profesional</span>
-                  </div>
-                </div>
-                
-                <div className="pt-4 border-t border-white/10">
-                  <p className="text-xs text-gray-400">
-                    Seminario Internacional de Inteligencia Energética
-                  </p>
-                </div>
-              </div>
-            </div>
+          <div className="mt-12 text-center space-y-4">
+            <p className="text-sm text-gray-400">
+              Las palmaditas alternas ayudan a tu cerebro a procesar emociones difíciles
+            </p>
+            <p className="text-xs text-gray-500">
+              ⚠️ Si tienes traumas severos o te sientes muy mal, busca ayuda profesional
+            </p>
           </div>
         </div>
       </div>
