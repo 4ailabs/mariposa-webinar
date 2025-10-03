@@ -60,10 +60,9 @@ const SessionSelector: React.FC<SessionSelectorProps> = ({ sessions, onSelectSes
   };
 
   return (
-    <div className="flex flex-col min-h-screen w-full animate-fade-in bg-gradient-to-br from-gray-900 via-purple-900/20 to-gray-900">
+    <div className="flex flex-col min-h-screen w-full animate-fade-in bg-gray-900">
       {/* Hero Section */}
-      <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-600/10 via-pink-600/10 to-purple-600/10"></div>
+      <div className="relative">
         <div className="relative px-4 py-8 sm:py-12">
           <div className="text-center max-w-4xl mx-auto">
             {/* Logo Section */}
@@ -76,10 +75,10 @@ const SessionSelector: React.FC<SessionSelectorProps> = ({ sessions, onSelectSes
             </div>
             
             {/* Title Section */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent mb-3">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-3">
               Estimulación Bilateral Autoguiada
             </h1>
-            <h2 className="text-xl sm:text-2xl lg:text-3xl text-purple-200 font-medium mb-4">
+            <h2 className="text-xl sm:text-2xl lg:text-3xl text-gray-300 font-medium mb-4">
               Herramienta del Seminario
             </h2>
             
@@ -101,9 +100,9 @@ const SessionSelector: React.FC<SessionSelectorProps> = ({ sessions, onSelectSes
             
             {/* Decorative Elements */}
             <div className="flex justify-center gap-2 mb-6">
-              <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
-              <div className="w-2 h-2 bg-pink-400 rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
-              <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
+              <div className="w-2 h-2 bg-gray-500 rounded-full animate-pulse"></div>
+              <div className="w-2 h-2 bg-gray-400 rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
+              <div className="w-2 h-2 bg-gray-500 rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
             </div>
           </div>
         </div>
@@ -121,25 +120,23 @@ const SessionSelector: React.FC<SessionSelectorProps> = ({ sessions, onSelectSes
               <button
                 key={session.id}
                 onClick={() => onSelectSession(session)}
-                className="group relative overflow-hidden bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm border border-white/10 rounded-2xl p-5 sm:p-6 text-left hover:from-gray-700/80 hover:to-gray-800/80 hover:border-purple-500/50 active:scale-[0.98] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500/50 touch-manipulation animate-slide-up"
+                className="group relative overflow-hidden bg-gray-800 border border-gray-700 rounded-2xl p-5 sm:p-6 text-left hover:bg-gray-700 hover:border-gray-600 active:scale-[0.98] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500 touch-manipulation animate-slide-up"
                 style={{
                   animationDelay: `${index * 100}ms`
                 }}
               >
-                {/* Background Gradient Effect */}
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-600/5 via-transparent to-pink-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 
                 {/* Content */}
                 <div className="relative">
                   <div className="flex items-start gap-4">
                     {/* Icon */}
-                    <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
+                    <div className="flex-shrink-0 w-12 h-12 bg-gray-600 rounded-xl flex items-center justify-center text-white shadow-lg group-hover:bg-gray-500 group-hover:scale-110 transition-all duration-300">
                       {getSessionIcon(session.id)}
                     </div>
                     
                     {/* Content */}
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-lg sm:text-xl font-bold text-gray-100 group-hover:text-purple-200 transition-colors leading-tight mb-2">
+                      <h3 className="text-lg sm:text-xl font-bold text-gray-100 group-hover:text-white transition-colors leading-tight mb-2">
                         {session.title}
                       </h3>
                       <p className="text-sm sm:text-base text-gray-400 group-hover:text-gray-300 transition-colors leading-relaxed mb-4">
@@ -148,7 +145,7 @@ const SessionSelector: React.FC<SessionSelectorProps> = ({ sessions, onSelectSes
                       
                       {/* Stats */}
                       <div className="flex items-center gap-4 flex-wrap">
-                        <span className="inline-flex items-center gap-2 bg-purple-900/30 text-purple-300 px-3 py-2 rounded-lg text-sm font-medium border border-purple-700/30">
+                        <span className="inline-flex items-center gap-2 bg-gray-700 text-gray-300 px-3 py-2 rounded-lg text-sm font-medium border border-gray-600">
                           <Clock size={16} />
                           {formatDuration(session.duration)}
                         </span>
@@ -160,8 +157,8 @@ const SessionSelector: React.FC<SessionSelectorProps> = ({ sessions, onSelectSes
                     </div>
                     
                     {/* Arrow */}
-                    <div className="flex-shrink-0 w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center group-hover:bg-purple-500/20 transition-colors duration-300">
-                      <svg className="w-4 h-4 text-gray-400 group-hover:text-purple-400 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="flex-shrink-0 w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center group-hover:bg-gray-600 transition-colors duration-300">
+                      <svg className="w-4 h-4 text-gray-400 group-hover:text-white transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
                     </div>
