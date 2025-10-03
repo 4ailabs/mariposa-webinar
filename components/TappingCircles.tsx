@@ -13,6 +13,7 @@ const TappingCircles: React.FC<TappingCirclesProps> = ({
 }) => {
   const [currentSide, setCurrentSide] = useState<TapSide>('left');
   const [isActive, setIsActive] = useState(true);
+  const [currentBPM, setCurrentBPM] = useState(bpm);
 
   // Función para vibración háptica
   const hapticTap = useCallback((side: TapSide) => {
@@ -25,7 +26,7 @@ const TappingCircles: React.FC<TappingCirclesProps> = ({
   useEffect(() => {
     if (!isActive) return;
 
-    const tapIntervalMs = (60 / bpm) * 1000;
+    const tapIntervalMs = (60 / currentBPM) * 1000;
     const tapTimer = setInterval(() => {
       setCurrentSide(prevSide => {
         const newSide = prevSide === 'left' ? 'right' : 'left';
@@ -35,7 +36,7 @@ const TappingCircles: React.FC<TappingCirclesProps> = ({
     }, tapIntervalMs / 2);
 
     return () => clearInterval(tapTimer);
-  }, [bpm, hapticTap, isActive]);
+  }, [currentBPM, hapticTap, isActive]);
 
   const handleToggle = () => {
     setIsActive(prev => !prev);
@@ -100,12 +101,38 @@ const TappingCircles: React.FC<TappingCirclesProps> = ({
             }
           </p>
           
-          {isActive && (
-            <div className="mt-4 flex items-center justify-center gap-2 text-sm text-blue-400">
-              <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
-              <span>BPM: {bpm}</span>
+          {/* Controles de velocidad */}
+          <div className="mt-6 flex flex-col items-center gap-4">
+            <div className="flex gap-2">
+              <button
+                onClick={() => setCurrentBPM(60)}
+                className={`px-4 py-2 rounded-lg transition-colors text-sm ${
+                  currentBPM === 60 
+                    ? 'bg-blue-600 text-white' 
+                    : 'bg-gray-700 hover:bg-gray-600 text-gray-300'
+                }`}
+              >
+                Normal (60 BPM)
+              </button>
+              <button
+                onClick={() => setCurrentBPM(90)}
+                className={`px-4 py-2 rounded-lg transition-colors text-sm ${
+                  currentBPM === 90 
+                    ? 'bg-orange-600 text-white' 
+                    : 'bg-gray-700 hover:bg-gray-600 text-gray-300'
+                }`}
+              >
+                Rápido (90 BPM)
+              </button>
             </div>
-          )}
+            
+            {isActive && (
+              <div className="flex items-center justify-center gap-2 text-sm text-blue-400">
+                <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+                <span>BPM: {currentBPM}</span>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Círculos de tapping */}
