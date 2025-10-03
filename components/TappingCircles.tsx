@@ -16,6 +16,7 @@ const TappingCircles: React.FC<TappingCirclesProps> = ({
   const [currentBPM, setCurrentBPM] = useState(bpm);
   const [audioEnabled, setAudioEnabled] = useState(false);
   const [hasHeadphones, setHasHeadphones] = useState(false);
+  const [audioInitialized, setAudioInitialized] = useState(false);
 
   // Variable para mantener el contexto de audio
   const audioContextRef = useRef<AudioContext | null>(null);
@@ -129,6 +130,30 @@ const TappingCircles: React.FC<TappingCirclesProps> = ({
     setIsActive(prev => !prev);
   };
 
+  const initializeAudio = async () => {
+    try {
+      const audioContext = await getAudioContext();
+      // Crear un tono muy corto para inicializar el contexto
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.setValueAtTime(440, audioContext.currentTime);
+      oscillator.type = 'sine';
+      gainNode.gain.setValueAtTime(0.001, audioContext.currentTime);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.01);
+      
+      setAudioInitialized(true);
+      setAudioEnabled(true);
+    } catch (error) {
+      console.log('Error al inicializar audio:', error);
+    }
+  };
+
   const handleComplete = () => {
     // Limpiar el contexto de audio
     if (audioContextRef.current) {
@@ -231,21 +256,30 @@ const TappingCircles: React.FC<TappingCirclesProps> = ({
             
             {/* Control de audio */}
             <div className="flex flex-col items-center gap-2">
-              <button
-                onClick={() => setAudioEnabled(!audioEnabled)}
-                disabled={!hasHeadphones}
-                className={`px-4 py-2 rounded-lg transition-colors text-sm flex items-center gap-2 ${
-                  audioEnabled 
-                    ? 'bg-green-600 text-white' 
-                    : hasHeadphones 
-                      ? 'bg-gray-700 hover:bg-gray-600 text-gray-300' 
-                      : 'bg-gray-800 text-gray-500 cursor-not-allowed'
-                }`}
-              >
-                {audioEnabled ? 'Sonido ON' : 'Sonido OFF'}
-              </button>
+              {!audioInitialized ? (
+                <button
+                  onClick={initializeAudio}
+                  className="px-4 py-2 rounded-lg transition-colors text-sm bg-blue-600 hover:bg-blue-500 text-white"
+                >
+                  Activar Audio
+                </button>
+              ) : (
+                <button
+                  onClick={() => setAudioEnabled(!audioEnabled)}
+                  disabled={!hasHeadphones}
+                  className={`px-4 py-2 rounded-lg transition-colors text-sm flex items-center gap-2 ${
+                    audioEnabled 
+                      ? 'bg-green-600 text-white' 
+                      : hasHeadphones 
+                        ? 'bg-gray-700 hover:bg-gray-600 text-gray-300' 
+                        : 'bg-gray-800 text-gray-500 cursor-not-allowed'
+                  }`}
+                >
+                  {audioEnabled ? 'Sonido ON' : 'Sonido OFF'}
+                </button>
+              )}
               
-              {!hasHeadphones && (
+              {!hasHeadphones && audioInitialized && (
                 <span className="text-xs text-yellow-400 text-center px-2">
                   Conecta auriculares para audio
                 </span>
