@@ -180,7 +180,7 @@ const SessionSelector: React.FC<SessionSelectorProps> = ({ sessions, onSelectSes
               <button
                 key={session.id}
                 onClick={() => handleSessionClick(session)}
-                className={`group relative overflow-hidden ${isPremiumSession(session.id) && !isAuthenticated ? 'bg-gray-900 border-2 border-orange-500/50' : 'bg-gray-800 border border-gray-700'} rounded-xl p-4 sm:p-5 text-left hover:bg-gray-700 hover:border-gray-600 hover:shadow-xl hover:shadow-gray-900/20 active:scale-[0.98] lg:hover:scale-[1.02] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500 touch-manipulation animate-slide-up`}
+                className={`group relative overflow-hidden bg-gray-800 border ${isPremiumSession(session.id) && !isAuthenticated ? 'border-orange-500/50 border-2' : 'border-gray-700'} rounded-xl p-4 sm:p-5 text-left hover:bg-gray-700 hover:border-gray-600 hover:shadow-xl hover:shadow-gray-900/20 active:scale-[0.98] lg:hover:scale-[1.02] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500 touch-manipulation animate-slide-up`}
                 style={{
                   animationDelay: `${index * 100}ms`
                 }}
@@ -190,15 +190,11 @@ const SessionSelector: React.FC<SessionSelectorProps> = ({ sessions, onSelectSes
                 <div className="relative">
                   <div className="flex items-start gap-3 sm:gap-4">
                     {/* Icon */}
-                    <div className={`flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 ${isPremiumSession(session.id) && !isAuthenticated ? 'bg-gray-700' : getSessionIconColor(session.id)} rounded-lg flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-all duration-300 relative`}>
-                      {isPremiumSession(session.id) && !isAuthenticated ? (
-                        <Lock className="w-6 h-6 sm:w-7 sm:h-7" />
-                      ) : (
-                        getSessionIcon(session.id)
-                      )}
+                    <div className={`flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 ${getSessionIconColor(session.id)} rounded-lg flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-all duration-300 relative`}>
+                      {getSessionIcon(session.id)}
                       {isPremiumSession(session.id) && !isAuthenticated && (
-                        <div className="absolute -top-1 -right-1 w-4 h-4 bg-orange-500 rounded-full flex items-center justify-center">
-                          <Lock className="w-2 h-2 text-white" />
+                        <div className="absolute -top-1 -right-1 w-5 h-5 sm:w-6 sm:h-6 bg-orange-500 rounded-full flex items-center justify-center shadow-lg ring-2 ring-gray-800">
+                          <Lock className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white" />
                         </div>
                       )}
                     </div>
