@@ -44,7 +44,14 @@ const SessionSelector: React.FC<SessionSelectorProps> = ({ sessions, onSelectSes
   return (
     <div className="flex flex-col min-h-screen w-full animate-fade-in px-4 py-6 pb-safe">
       <div className="text-center mb-6">
-        <ButterflyIcon className="w-20 h-20 mx-auto text-purple-400 mb-3" size="md" />
+        <div className="flex justify-center items-center gap-4 mb-4">
+          <img 
+            src="/images/logo-seminario.png" 
+            alt="Logo Seminario Internacional de Inteligencia Energética"
+            className="w-16 h-16 sm:w-20 sm:h-20 object-contain"
+          />
+          <ButterflyIcon className="w-16 h-16 sm:w-20 sm:h-20 text-purple-400" size="md" />
+        </div>
         <h1 className="text-3xl sm:text-4xl font-bold text-gray-100">Estimulación Bilateral</h1>
         <h2 className="text-xl sm:text-2xl text-purple-300">Herramienta del Seminario</h2>
         <p className="text-sm sm:text-base text-gray-400 mt-2 px-4">Seminario Internacional de Inteligencia Energética</p>

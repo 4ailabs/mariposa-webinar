@@ -116,7 +116,13 @@ const SessionActive: React.FC<SessionActiveProps> = ({ session, onComplete }) =>
   return (
     <div className="w-full min-h-screen flex flex-col justify-between p-4 sm:p-6 bg-gray-900 text-gray-100 animate-fade-in pb-safe">
         <header className="flex justify-between items-start gap-3 mb-4">
-            <div className="text-left flex-1 min-w-0">
+            <div className="flex items-center gap-3 text-left flex-1 min-w-0">
+              <img 
+                src="/images/logo-seminario.png" 
+                alt="Logo Seminario"
+                className="w-8 h-8 sm:w-10 sm:h-10 object-contain flex-shrink-0"
+              />
+              <div className="flex-1 min-w-0">
                 <h1 className="text-lg sm:text-xl font-bold leading-tight">{session.title}</h1>
                 <div className="text-gray-400 text-xs sm:text-sm mt-1">
                   <p>Paso {currentPhaseIndex + 1} de {session.phases.length}</p>
@@ -124,6 +130,7 @@ const SessionActive: React.FC<SessionActiveProps> = ({ session, onComplete }) =>
                     <p className="hidden sm:block">Tiempo: {currentPhase.duration}s</p>
                   )}
                 </div>
+              </div>
             </div>
             <div className="flex gap-2 flex-shrink-0">
               {isPaused && (
