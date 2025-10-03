@@ -1,7 +1,7 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import type { Session } from '../types';
-import { Clock, PlayCircle, Brain, Heart, Shield, Zap, Star, Sparkles } from 'lucide-react';
+import { Clock, PlayCircle, Brain, Heart, Shield, Zap, Star, Sparkles, Lock, Unlock } from 'lucide-react';
 
 interface SessionSelectorProps {
   sessions: Session[];
@@ -9,6 +9,47 @@ interface SessionSelectorProps {
 }
 
 const SessionSelector: React.FC<SessionSelectorProps> = ({ sessions, onSelectSession }) => {
+  const [passwordModal, setPasswordModal] = useState<{ isOpen: boolean; session: Session | null }>({ 
+    isOpen: false, 
+    session: null 
+  });
+  const [passwordInput, setPasswordInput] = useState('');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  // Contraseña para las sesiones premium (cambiar por la contraseña real del seminario)
+  const SEMINAR_PASSWORD = 'seminario2024';
+
+  const isPremiumSession = (sessionId: string): boolean => {
+    return sessionId === 'emdr-protocolo-completo' || sessionId === 'emdr-sesion-rapida';
+  };
+
+  const handleSessionClick = (session: Session) => {
+    if (isPremiumSession(session.id) && !isAuthenticated) {
+      setPasswordModal({ isOpen: true, session });
+    } else {
+      onSelectSession(session);
+    }
+  };
+
+  const handlePasswordSubmit = () => {
+    if (passwordInput === SEMINAR_PASSWORD) {
+      setIsAuthenticated(true);
+      setPasswordModal({ isOpen: false, session: null });
+      setPasswordInput('');
+      if (passwordModal.session) {
+        onSelectSession(passwordModal.session);
+      }
+    } else {
+      alert('Contraseña incorrecta. Solo los asistentes del seminario pueden acceder a estas sesiones.');
+      setPasswordInput('');
+    }
+  };
+
+  const closePasswordModal = () => {
+    setPasswordModal({ isOpen: false, session: null });
+    setPasswordInput('');
+  };
+
   const formatDuration = (seconds: number): string => {
     if (seconds >= 3600) {
       const hours = Math.floor(seconds / 3600);
@@ -24,19 +65,19 @@ const SessionSelector: React.FC<SessionSelectorProps> = ({ sessions, onSelectSes
   const getSessionIcon = (sessionId: string) => {
     switch (sessionId) {
       case 'emdr-protocolo-completo':
-        return <Brain className="w-5 h-5" />;
+        return <Brain className="w-6 h-6 sm:w-7 sm:h-7" />;
       case 'emdr-sesion-rapida':
-        return <Zap className="w-5 h-5" />;
+        return <Zap className="w-6 h-6 sm:w-7 sm:h-7" />;
       case 'emdr-recursos-positivos':
-        return <Star className="w-5 h-5" />;
+        return <Star className="w-6 h-6 sm:w-7 sm:h-7" />;
       case 'emdr-lugar-seguro':
-        return <Shield className="w-5 h-5" />;
+        return <Shield className="w-6 h-6 sm:w-7 sm:h-7" />;
       case 'emdr-procesamiento-rapido':
-        return <Sparkles className="w-5 h-5" />;
+        return <Sparkles className="w-6 h-6 sm:w-7 sm:h-7" />;
       case 'emdr-autocuidado-diario':
-        return <Heart className="w-5 h-5" />;
+        return <Heart className="w-6 h-6 sm:w-7 sm:h-7" />;
       default:
-        return <PlayCircle className="w-5 h-5" />;
+        return <PlayCircle className="w-6 h-6 sm:w-7 sm:h-7" />;
     }
   };
 
@@ -134,12 +175,12 @@ const SessionSelector: React.FC<SessionSelectorProps> = ({ sessions, onSelectSes
             ¿Qué quieres trabajar hoy?
           </h2>
 
-          <div className="grid gap-4 sm:gap-6">
+          <div className="grid gap-6 sm:gap-8">
             {sessions.map((session, index) => (
               <button
                 key={session.id}
-                onClick={() => onSelectSession(session)}
-                className="group relative overflow-hidden bg-gray-800 border border-gray-700 rounded-2xl p-5 sm:p-6 text-left hover:bg-gray-700 hover:border-gray-600 active:scale-[0.98] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500 touch-manipulation animate-slide-up"
+                onClick={() => handleSessionClick(session)}
+                className={`group relative overflow-hidden ${isPremiumSession(session.id) && !isAuthenticated ? 'bg-gray-900 border-gray-600' : 'bg-gray-800 border-gray-700'} rounded-2xl p-6 sm:p-8 text-left hover:bg-gray-700 hover:border-gray-600 active:scale-[0.98] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500 touch-manipulation animate-slide-up`}
                 style={{
                   animationDelay: `${index * 100}ms`
                 }}
@@ -147,17 +188,34 @@ const SessionSelector: React.FC<SessionSelectorProps> = ({ sessions, onSelectSes
                 
                 {/* Content */}
                 <div className="relative">
-                  <div className="flex items-start gap-4">
+                  <div className="flex items-start gap-4 sm:gap-6">
                     {/* Icon */}
-                    <div className={`flex-shrink-0 w-12 h-12 ${getSessionIconColor(session.id)} rounded-xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-all duration-300`}>
-                      {getSessionIcon(session.id)}
+                    <div className={`flex-shrink-0 w-14 h-14 sm:w-16 sm:h-16 ${isPremiumSession(session.id) && !isAuthenticated ? 'bg-gray-700' : getSessionIconColor(session.id)} rounded-xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-all duration-300 relative`}>
+                      {isPremiumSession(session.id) && !isAuthenticated ? (
+                        <Lock className="w-6 h-6 sm:w-7 sm:h-7" />
+                      ) : (
+                        getSessionIcon(session.id)
+                      )}
+                      {isPremiumSession(session.id) && !isAuthenticated && (
+                        <div className="absolute -top-1 -right-1 w-4 h-4 bg-orange-500 rounded-full flex items-center justify-center">
+                          <Lock className="w-2 h-2 text-white" />
+                        </div>
+                      )}
                     </div>
                     
                     {/* Content */}
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-lg sm:text-xl font-bold text-gray-100 group-hover:text-white transition-colors leading-tight mb-2">
-                        {session.title}
-                      </h3>
+                      <div className="flex items-center gap-2 mb-2">
+                        <h3 className="text-lg sm:text-xl font-bold text-gray-100 group-hover:text-white transition-colors leading-tight">
+                          {session.title}
+                        </h3>
+                        {isPremiumSession(session.id) && !isAuthenticated && (
+                          <span className="inline-flex items-center gap-1 bg-orange-500/20 text-orange-400 px-2 py-1 rounded-lg text-xs font-medium border border-orange-500/30">
+                            <Lock className="w-3 h-3" />
+                            Premium
+                          </span>
+                        )}
+                      </div>
                       <p className="text-sm sm:text-base text-gray-400 group-hover:text-gray-300 transition-colors leading-relaxed mb-4">
                         {getSessionDescription(session.id)}
                       </p>
@@ -198,6 +256,61 @@ const SessionSelector: React.FC<SessionSelectorProps> = ({ sessions, onSelectSes
           </div>
         </div>
       </div>
+
+      {/* Password Modal */}
+      {passwordModal.isOpen && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+          <div className="bg-gray-800 border border-gray-700 rounded-2xl p-6 sm:p-8 max-w-md w-full">
+            <div className="text-center mb-6">
+              <div className="w-16 h-16 bg-orange-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Lock className="w-8 h-8 text-orange-400" />
+              </div>
+              <h3 className="text-xl font-bold text-white mb-2">
+                Sesión Premium
+              </h3>
+              <p className="text-gray-400 text-sm">
+                Esta sesión está disponible solo para asistentes del seminario
+              </p>
+            </div>
+            
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Contraseña del seminario
+                </label>
+                <input
+                  type="password"
+                  value={passwordInput}
+                  onChange={(e) => setPasswordInput(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && handlePasswordSubmit()}
+                  className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  placeholder="Ingresa la contraseña"
+                  autoFocus
+                />
+              </div>
+              
+              <div className="flex gap-3">
+                <button
+                  onClick={closePasswordModal}
+                  className="flex-1 px-4 py-3 bg-gray-700 hover:bg-gray-600 text-gray-300 rounded-lg transition-colors"
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={handlePasswordSubmit}
+                  className="flex-1 px-4 py-3 bg-orange-600 hover:bg-orange-500 text-white rounded-lg transition-colors"
+                >
+                  Acceder
+                </button>
+              </div>
+            </div>
+            
+            <p className="text-xs text-gray-500 text-center mt-4">
+              💡 Pregunta la contraseña a los organizadores del seminario
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
