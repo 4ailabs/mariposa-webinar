@@ -150,9 +150,9 @@ const SessionActive: React.FC<SessionActiveProps> = ({ session, onComplete }) =>
             {showButterfly && (
               <div className="absolute top-2 right-2 sm:top-4 sm:right-4 z-10">
                 <ButterflyIcon
-                  size="lg"
+                  size="sm"
                   isTransforming={butterflyTransforming}
-                  className="text-purple-400 w-12 h-12 sm:w-16 sm:h-16"
+                  className="text-purple-400 w-6 h-6 sm:w-8 sm:h-8"
                 />
               </div>
             )}
