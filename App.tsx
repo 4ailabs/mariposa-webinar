@@ -4,6 +4,7 @@ import type { Session } from './types';
 import SessionSelector from './components/SessionSelector';
 import SessionActive from './components/SessionActive';
 import SessionComplete from './components/SessionComplete';
+import TappingCircles from './components/TappingCircles';
 import { sessions as sessionsData } from './data/sessions';
 
 const App: React.FC = () => {
@@ -27,6 +28,9 @@ const App: React.FC = () => {
   const renderContent = () => {
     if (isSessionComplete && selectedSession) {
       return <SessionComplete onGoHome={handleGoHome} sessionTitle={selectedSession.title} />;
+    }
+    if (selectedSession?.id === 'circulos-rapidos') {
+      return <TappingCircles onComplete={handleGoHome} />;
     }
     if (selectedSession) {
       return <SessionActive session={selectedSession} onComplete={handleSessionComplete} />;

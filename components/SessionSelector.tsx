@@ -175,6 +175,24 @@ const SessionSelector: React.FC<SessionSelectorProps> = ({ sessions, onSelectSes
             ¿Qué quieres trabajar hoy?
           </h2>
 
+          {/* Botón de círculos rápidos */}
+          <div className="mb-6 text-center">
+            <button
+              onClick={() => onSelectSession({ 
+                id: 'circulos-rapidos', 
+                title: 'Círculos Rápidos', 
+                duration: 0, 
+                bpm: 60, 
+                phases: [], 
+                manualControl: true 
+              } as any)}
+              className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600/20 to-indigo-600/20 hover:from-blue-600/30 hover:to-indigo-600/30 border border-blue-500/30 rounded-xl text-blue-300 hover:text-blue-200 transition-all duration-300 hover:scale-105"
+            >
+              <div className="w-6 h-6 bg-blue-500 rounded-full animate-pulse"></div>
+              <span className="font-medium">Solo Círculos - Modo Rápido</span>
+            </button>
+          </div>
+
           <div className="grid gap-6 sm:gap-8 lg:grid-cols-2 lg:gap-8 xl:gap-10">
             {sessions.map((session, index) => (
               <button
