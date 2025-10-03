@@ -123,22 +123,22 @@ const SessionSelector: React.FC<SessionSelectorProps> = ({ sessions, onSelectSes
     <div className="flex flex-col min-h-screen w-full animate-fade-in bg-gray-900">
       {/* Hero Section */}
       <div className="relative">
-        <div className="relative px-4 py-8 sm:py-12">
-          <div className="text-center max-w-4xl mx-auto">
+        <div className="relative px-4 py-8 sm:py-12 lg:py-16">
+          <div className="text-center max-w-6xl mx-auto">
             {/* Logo Section */}
             <div className="mb-6 animate-float">
               <img 
                 src="/images/logo-seminario.png" 
                 alt="Logo Seminario Internacional de Inteligencia Energética"
-                className="w-20 h-20 sm:w-24 sm:h-24 object-contain mx-auto mb-4 drop-shadow-lg"
+                className="w-20 h-20 sm:w-24 sm:h-24 lg:w-28 lg:h-28 object-contain mx-auto mb-4 drop-shadow-lg"
               />
             </div>
             
             {/* Title Section */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-3">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-3">
               Estimulación Bilateral Autoguiada
             </h1>
-            <h2 className="text-xl sm:text-2xl lg:text-3xl text-gray-300 font-medium mb-4">
+            <h2 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-gray-300 font-medium mb-4">
               Herramienta del Seminario
             </h2>
             
@@ -170,17 +170,17 @@ const SessionSelector: React.FC<SessionSelectorProps> = ({ sessions, onSelectSes
 
       {/* Sessions Section */}
       <div className="flex-1 px-4 pb-6">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-xl sm:text-2xl font-semibold text-gray-100 mb-6 text-center">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-gray-100 mb-6 lg:mb-8 text-center">
             ¿Qué quieres trabajar hoy?
           </h2>
 
-          <div className="grid gap-6 sm:gap-8">
+          <div className="grid gap-6 sm:gap-8 lg:grid-cols-2 lg:gap-8 xl:gap-10">
             {sessions.map((session, index) => (
               <button
                 key={session.id}
                 onClick={() => handleSessionClick(session)}
-                className={`group relative overflow-hidden ${isPremiumSession(session.id) && !isAuthenticated ? 'bg-gray-900 border-2 border-orange-500/50' : 'bg-gray-800 border border-gray-700'} rounded-2xl p-6 sm:p-8 text-left hover:bg-gray-700 hover:border-gray-600 active:scale-[0.98] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500 touch-manipulation animate-slide-up`}
+                className={`group relative overflow-hidden ${isPremiumSession(session.id) && !isAuthenticated ? 'bg-gray-900 border-2 border-orange-500/50' : 'bg-gray-800 border border-gray-700'} rounded-2xl p-6 sm:p-8 text-left hover:bg-gray-700 hover:border-gray-600 hover:shadow-xl hover:shadow-gray-900/20 active:scale-[0.98] lg:hover:scale-[1.02] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500 touch-manipulation animate-slide-up`}
                 style={{
                   animationDelay: `${index * 100}ms`
                 }}
@@ -260,15 +260,15 @@ const SessionSelector: React.FC<SessionSelectorProps> = ({ sessions, onSelectSes
       {/* Password Modal */}
       {passwordModal.isOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className="bg-gray-800 border border-gray-700 rounded-2xl p-6 sm:p-8 max-w-md w-full">
-            <div className="text-center mb-6">
-              <div className="w-16 h-16 bg-orange-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Lock className="w-8 h-8 text-orange-400" />
+          <div className="bg-gray-800 border border-gray-700 rounded-2xl p-6 sm:p-8 lg:p-10 max-w-md lg:max-w-lg w-full">
+            <div className="text-center mb-6 lg:mb-8">
+              <div className="w-16 h-16 lg:w-20 lg:h-20 bg-orange-500/20 rounded-full flex items-center justify-center mx-auto mb-4 lg:mb-6">
+                <Lock className="w-8 h-8 lg:w-10 lg:h-10 text-orange-400" />
               </div>
-              <h3 className="text-xl font-bold text-white mb-2">
+              <h3 className="text-xl lg:text-2xl font-bold text-white mb-2 lg:mb-3">
                 Sesión Premium
               </h3>
-              <p className="text-gray-400 text-sm">
+              <p className="text-gray-400 text-sm lg:text-base">
                 Esta sesión está disponible solo para asistentes del seminario
               </p>
             </div>
@@ -289,16 +289,16 @@ const SessionSelector: React.FC<SessionSelectorProps> = ({ sessions, onSelectSes
                 />
               </div>
               
-              <div className="flex gap-3">
+              <div className="flex gap-3 lg:gap-4">
                 <button
                   onClick={closePasswordModal}
-                  className="flex-1 px-4 py-3 bg-gray-700 hover:bg-gray-600 text-gray-300 rounded-lg transition-colors"
+                  className="flex-1 px-4 py-3 lg:px-6 lg:py-4 bg-gray-700 hover:bg-gray-600 text-gray-300 rounded-lg transition-colors text-sm lg:text-base font-medium"
                 >
                   Cancelar
                 </button>
                 <button
                   onClick={handlePasswordSubmit}
-                  className="flex-1 px-4 py-3 bg-orange-600 hover:bg-orange-500 text-white rounded-lg transition-colors"
+                  className="flex-1 px-4 py-3 lg:px-6 lg:py-4 bg-orange-600 hover:bg-orange-500 text-white rounded-lg transition-colors text-sm lg:text-base font-medium"
                 >
                   Acceder
                 </button>

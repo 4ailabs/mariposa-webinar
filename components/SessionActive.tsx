@@ -114,17 +114,17 @@ const SessionActive: React.FC<SessionActiveProps> = ({ session, onComplete }) =>
   const progressPercentage = ((currentPhaseIndex + 1) / session.phases.length) * 100;
 
   return (
-    <div className="w-full min-h-screen flex flex-col justify-between p-4 sm:p-6 bg-gray-900 text-gray-100 animate-fade-in pb-safe">
-        <header className="flex justify-between items-start gap-3 mb-4">
-            <div className="flex items-center gap-3 text-left flex-1 min-w-0">
+    <div className="w-full min-h-screen flex flex-col justify-between p-4 sm:p-6 lg:p-8 bg-gray-900 text-gray-100 animate-fade-in pb-safe">
+        <header className="flex justify-between items-start gap-3 mb-4 lg:mb-6">
+            <div className="flex items-center gap-3 lg:gap-4 text-left flex-1 min-w-0">
               <img 
                 src="/images/logo-seminario.png" 
                 alt="Logo Seminario"
-                className="w-8 h-8 sm:w-10 sm:h-10 object-contain flex-shrink-0"
+                className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 object-contain flex-shrink-0"
               />
               <div className="flex-1 min-w-0">
-                <h1 className="text-lg sm:text-xl font-bold leading-tight">{session.title}</h1>
-                <div className="text-gray-400 text-xs sm:text-sm mt-1">
+                <h1 className="text-lg sm:text-xl lg:text-2xl font-bold leading-tight">{session.title}</h1>
+                <div className="text-gray-400 text-xs sm:text-sm lg:text-base mt-1">
                   <p>Paso {currentPhaseIndex + 1} de {session.phases.length}</p>
                   {currentPhase?.duration && (
                     <p className="hidden sm:block">Tiempo: {currentPhase.duration}s</p>
@@ -146,9 +146,9 @@ const SessionActive: React.FC<SessionActiveProps> = ({ session, onComplete }) =>
             </div>
         </header>
 
-        <div className="flex-grow flex items-center justify-center text-center px-2 sm:px-4 py-6 relative my-auto">
+        <div className="flex-grow flex items-center justify-center text-center px-2 sm:px-4 lg:px-8 py-6 lg:py-8 relative my-auto">
             {showButterfly && (
-              <div className="absolute top-2 right-2 sm:top-4 sm:right-4 z-10">
+              <div className="absolute top-2 right-2 sm:top-4 sm:right-4 lg:top-6 lg:right-6 z-10">
                 <ButterflyIcon
                   size="sm"
                   isTransforming={butterflyTransforming}
@@ -156,8 +156,8 @@ const SessionActive: React.FC<SessionActiveProps> = ({ session, onComplete }) =>
                 />
               </div>
             )}
-            <div className="max-w-4xl w-full">
-              <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-medium leading-relaxed mb-4 px-2">
+            <div className="max-w-6xl w-full">
+              <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-medium leading-relaxed mb-4 px-2 lg:px-4">
                 {currentPhase?.phrase || currentPhase?.text}
               </p>
               {currentPhase?.pauseDuration && (
@@ -169,31 +169,31 @@ const SessionActive: React.FC<SessionActiveProps> = ({ session, onComplete }) =>
         </div>
 
         {/* Controles manuales */}
-        <div className="flex flex-col items-center gap-4 sm:gap-6 my-4 sm:my-8">
+        <div className="flex flex-col items-center gap-4 sm:gap-6 my-4 sm:my-8 lg:my-12">
           {isManualControl && (
-            <div className="flex gap-2 sm:gap-4 w-full max-w-md px-2">
+            <div className="flex gap-2 sm:gap-4 lg:gap-6 w-full max-w-md lg:max-w-lg px-2">
               <button
                 onClick={handlePrevPhase}
                 disabled={isFirstPhase}
-                className="flex-1 px-4 sm:px-6 py-3 sm:py-3.5 bg-purple-700 active:bg-purple-600 hover:bg-purple-600 disabled:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl transition-colors flex items-center justify-center gap-2 text-sm sm:text-base font-medium touch-manipulation"
+                className="flex-1 px-4 sm:px-6 lg:px-8 py-3 sm:py-3.5 lg:py-4 bg-purple-700 active:bg-purple-600 hover:bg-purple-600 disabled:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl transition-colors flex items-center justify-center gap-2 text-sm sm:text-base lg:text-lg font-medium touch-manipulation"
               >
-                <ChevronLeft size={20} />
+                <ChevronLeft size={20} className="lg:w-6 lg:h-6" />
                 <span className="hidden sm:inline">Anterior</span>
               </button>
               <button
                 onClick={handlePauseToggle}
-                className="flex-1 px-4 sm:px-6 py-3 sm:py-3.5 bg-blue-700 active:bg-blue-600 hover:bg-blue-600 rounded-xl transition-colors flex items-center justify-center gap-2 text-sm sm:text-base font-medium touch-manipulation"
+                className="flex-1 px-4 sm:px-6 lg:px-8 py-3 sm:py-3.5 lg:py-4 bg-blue-700 active:bg-blue-600 hover:bg-blue-600 rounded-xl transition-colors flex items-center justify-center gap-2 text-sm sm:text-base lg:text-lg font-medium touch-manipulation"
               >
-                {isPaused ? <Play size={20} /> : <Pause size={20} />}
+                {isPaused ? <Play size={20} className="lg:w-6 lg:h-6" /> : <Pause size={20} className="lg:w-6 lg:h-6" />}
                 {isPaused ? 'Reanudar' : 'Pausar'}
               </button>
               <button
                 onClick={handleNextPhase}
                 disabled={isLastPhase}
-                className="flex-1 px-4 sm:px-6 py-3 sm:py-3.5 bg-purple-700 active:bg-purple-600 hover:bg-purple-600 disabled:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl transition-colors flex items-center justify-center gap-2 text-sm sm:text-base font-medium touch-manipulation"
+                className="flex-1 px-4 sm:px-6 lg:px-8 py-3 sm:py-3.5 lg:py-4 bg-purple-700 active:bg-purple-600 hover:bg-purple-600 disabled:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl transition-colors flex items-center justify-center gap-2 text-sm sm:text-base lg:text-lg font-medium touch-manipulation"
               >
                 <span className="hidden sm:inline">Siguiente</span>
-                <ChevronRight size={20} />
+                <ChevronRight size={20} className="lg:w-6 lg:h-6" />
               </button>
             </div>
           )}
