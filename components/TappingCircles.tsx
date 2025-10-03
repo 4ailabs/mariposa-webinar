@@ -189,7 +189,7 @@ const TappingCircles: React.FC<TappingCirclesProps> = ({
             </div>
             
             {/* Control de audio */}
-            <div className="flex items-center gap-3">
+            <div className="flex flex-col items-center gap-2">
               <button
                 onClick={() => setAudioEnabled(!audioEnabled)}
                 disabled={!hasHeadphones}
@@ -204,16 +204,15 @@ const TappingCircles: React.FC<TappingCirclesProps> = ({
                 {audioEnabled ? 'Sonido ON' : 'Sonido OFF'}
               </button>
               
-              <div className="flex flex-col items-center gap-1">
-                {!hasHeadphones && (
-                  <span className="text-xs text-yellow-400">
-                    Conecta auriculares para audio
-                  </span>
-                )}
-                <span className="text-xs text-gray-500">
-                  Nota: El sonido solo funciona con auriculares
+              {!hasHeadphones && (
+                <span className="text-xs text-yellow-400 text-center px-2">
+                  Conecta auriculares para audio
                 </span>
-              </div>
+              )}
+              
+              <span className="text-xs text-gray-500 text-center px-4">
+                Nota: El sonido solo funciona con auriculares
+              </span>
             </div>
             
             {isActive && (
