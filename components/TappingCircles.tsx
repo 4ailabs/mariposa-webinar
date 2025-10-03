@@ -40,9 +40,20 @@ const TappingCircles: React.FC<TappingCirclesProps> = ({
   }, []);
 
   // Función para crear beep estéreo
-  const createStereoBeep = useCallback(async (side: TapSide, frequency: number = 800) => {
+  const createStereoBeep = useCallback((side: TapSide, frequency: number = 800) => {
     try {
-      const audioContext = await getAudioContext();
+      if (!audioContextRef.current) {
+        console.log('No hay contexto de audio disponible');
+        return;
+      }
+
+      const audioContext = audioContextRef.current;
+      
+      // Reanudar el contexto si está suspendido
+      if (audioContext.state === 'suspended') {
+        audioContext.resume().catch(err => console.log('Error al reanudar:', err));
+      }
+
       const oscillator = audioContext.createOscillator();
       const gainNode = audioContext.createGain();
       const pannerNode = audioContext.createStereoPanner();
@@ -58,15 +69,15 @@ const TappingCircles: React.FC<TappingCirclesProps> = ({
       pannerNode.pan.setValueAtTime(side === 'left' ? -1 : 1, audioContext.currentTime);
       
       gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-      gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.01);
-      gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.1);
+      gainNode.gain.linearRampToValueAtTime(0.15, audioContext.currentTime + 0.01);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.08);
       
       oscillator.start(audioContext.currentTime);
-      oscillator.stop(audioContext.currentTime + 0.1);
+      oscillator.stop(audioContext.currentTime + 0.08);
     } catch (error) {
       console.log('Error al reproducir audio:', error);
     }
-  }, [getAudioContext]);
+  }, []);
 
   // Función para vibración háptica
   const hapticTap = useCallback((side: TapSide) => {
@@ -132,25 +143,33 @@ const TappingCircles: React.FC<TappingCirclesProps> = ({
 
   const initializeAudio = async () => {
     try {
-      const audioContext = await getAudioContext();
-      // Crear un tono muy corto para inicializar el contexto
-      const oscillator = audioContext.createOscillator();
-      const gainNode = audioContext.createGain();
+      // Crear el contexto de audio directamente
+      audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+      
+      // Crear un tono más audible para inicializar
+      const oscillator = audioContextRef.current.createOscillator();
+      const gainNode = audioContextRef.current.createGain();
       
       oscillator.connect(gainNode);
-      gainNode.connect(audioContext.destination);
+      gainNode.connect(audioContextRef.current.destination);
       
-      oscillator.frequency.setValueAtTime(440, audioContext.currentTime);
+      oscillator.frequency.setValueAtTime(440, audioContextRef.current.currentTime);
       oscillator.type = 'sine';
-      gainNode.gain.setValueAtTime(0.001, audioContext.currentTime);
+      gainNode.gain.setValueAtTime(0.1, audioContextRef.current.currentTime);
       
-      oscillator.start(audioContext.currentTime);
-      oscillator.stop(audioContext.currentTime + 0.01);
+      oscillator.start(audioContextRef.current.currentTime);
+      oscillator.stop(audioContextRef.current.currentTime + 0.1);
       
-      setAudioInitialized(true);
-      setAudioEnabled(true);
+      // Esperar un poco para que se complete
+      setTimeout(() => {
+        setAudioInitialized(true);
+        setAudioEnabled(true);
+      }, 100);
+      
     } catch (error) {
       console.log('Error al inicializar audio:', error);
+      setAudioInitialized(true); // Permitir intentar de todas formas
+      setAudioEnabled(true);
     }
   };
 
@@ -257,12 +276,17 @@ const TappingCircles: React.FC<TappingCirclesProps> = ({
             {/* Control de audio */}
             <div className="flex flex-col items-center gap-2">
               {!audioInitialized ? (
-                <button
-                  onClick={initializeAudio}
-                  className="px-4 py-2 rounded-lg transition-colors text-sm bg-blue-600 hover:bg-blue-500 text-white"
-                >
-                  Activar Audio
-                </button>
+                <div className="flex flex-col items-center gap-2">
+                  <button
+                    onClick={initializeAudio}
+                    className="px-4 py-2 rounded-lg transition-colors text-sm bg-blue-600 hover:bg-blue-500 text-white"
+                  >
+                    Activar Audio
+                  </button>
+                  <span className="text-xs text-blue-300 text-center px-2">
+                    Toca para permitir el audio en móviles
+                  </span>
+                </div>
               ) : (
                 <button
                   onClick={() => setAudioEnabled(!audioEnabled)}
