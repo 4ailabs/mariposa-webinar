@@ -1,8 +1,7 @@
 
 import React from 'react';
 import type { Session } from '../types';
-import ButterflyIcon from './ButterflyIcon';
-import { Clock, PlayCircle } from 'lucide-react';
+import { Clock, PlayCircle, Brain, Heart, Shield, Zap, Star, Sparkles } from 'lucide-react';
 
 interface SessionSelectorProps {
   sessions: Session[];
@@ -19,6 +18,25 @@ const SessionSelector: React.FC<SessionSelectorProps> = ({ sessions, onSelectSes
       const minutes = Math.floor(seconds / 60);
       const remainingSeconds = seconds % 60;
       return `${minutes}min${remainingSeconds > 0 ? ` ${remainingSeconds}s` : ''}`;
+    }
+  };
+
+  const getSessionIcon = (sessionId: string) => {
+    switch (sessionId) {
+      case 'emdr-protocolo-completo':
+        return <Brain className="w-5 h-5" />;
+      case 'emdr-sesion-rapida':
+        return <Zap className="w-5 h-5" />;
+      case 'emdr-recursos-positivos':
+        return <Star className="w-5 h-5" />;
+      case 'emdr-lugar-seguro':
+        return <Shield className="w-5 h-5" />;
+      case 'emdr-procesamiento-rapido':
+        return <Sparkles className="w-5 h-5" />;
+      case 'emdr-autocuidado-diario':
+        return <Heart className="w-5 h-5" />;
+      default:
+        return <PlayCircle className="w-5 h-5" />;
     }
   };
 
@@ -42,77 +60,151 @@ const SessionSelector: React.FC<SessionSelectorProps> = ({ sessions, onSelectSes
   };
 
   return (
-    <div className="flex flex-col min-h-screen w-full animate-fade-in px-4 py-6 pb-safe">
-      <div className="text-center mb-6">
-        <div className="flex justify-center items-center gap-4 mb-4">
-          <img 
-            src="/images/logo-seminario.png" 
-            alt="Logo Seminario Internacional de Inteligencia Energética"
-            className="w-16 h-16 sm:w-20 sm:h-20 object-contain"
-          />
-          <ButterflyIcon className="w-16 h-16 sm:w-20 sm:h-20 text-purple-400" size="md" />
+    <div className="flex flex-col min-h-screen w-full animate-fade-in bg-gradient-to-br from-gray-900 via-purple-900/20 to-gray-900">
+      {/* Hero Section */}
+      <div className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-purple-600/10 via-pink-600/10 to-purple-600/10"></div>
+        <div className="relative px-4 py-8 sm:py-12">
+          <div className="text-center max-w-4xl mx-auto">
+            {/* Logo Section */}
+            <div className="mb-6 animate-float">
+              <img 
+                src="/images/logo-seminario.png" 
+                alt="Logo Seminario Internacional de Inteligencia Energética"
+                className="w-20 h-20 sm:w-24 sm:h-24 object-contain mx-auto mb-4 drop-shadow-lg"
+              />
+            </div>
+            
+            {/* Title Section */}
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent mb-3">
+              Estimulación Bilateral
+            </h1>
+            <h2 className="text-xl sm:text-2xl lg:text-3xl text-purple-200 font-medium mb-4">
+              Herramienta del Seminario
+            </h2>
+            
+            {/* Description */}
+            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 sm:p-6 mb-6">
+              <p className="text-gray-300 text-sm sm:text-base mb-2">
+                Seminario Internacional de Inteligencia Energética
+              </p>
+              <a 
+                href="https://inteligencia-energetica.com" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors text-sm sm:text-base font-medium"
+              >
+                <Sparkles className="w-4 h-4" />
+                inteligencia-energetica.com
+              </a>
+            </div>
+            
+            {/* Decorative Elements */}
+            <div className="flex justify-center gap-2 mb-6">
+              <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
+              <div className="w-2 h-2 bg-pink-400 rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
+              <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
+            </div>
+          </div>
         </div>
-        <h1 className="text-3xl sm:text-4xl font-bold text-gray-100">Estimulación Bilateral</h1>
-        <h2 className="text-xl sm:text-2xl text-purple-300">Herramienta del Seminario</h2>
-        <p className="text-sm sm:text-base text-gray-400 mt-2 px-4">Seminario Internacional de Inteligencia Energética</p>
-        <p className="text-xs sm:text-sm text-blue-400 mt-1">
-          <a href="https://inteligencia-energetica.com" target="_blank" rel="noopener noreferrer" className="hover:underline">
-            inteligencia-energetica.com
-          </a>
-        </p>
       </div>
 
-      <h2 className="text-lg sm:text-xl font-semibold text-gray-200 mb-4">¿Qué quieres trabajar hoy?</h2>
+      {/* Sessions Section */}
+      <div className="flex-1 px-4 pb-6">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-xl sm:text-2xl font-semibold text-gray-100 mb-6 text-center">
+            ¿Qué quieres trabajar hoy?
+          </h2>
 
-      <div className="space-y-3 sm:space-y-4 flex-1">
-        {sessions.map(session => (
-          <button
-            key={session.id}
-            onClick={() => onSelectSession(session)}
-            className="w-full bg-gray-800 border-2 border-gray-700 rounded-xl p-4 sm:p-5 text-left active:bg-gray-700 active:border-purple-500 hover:bg-gray-700 hover:border-purple-500 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 group touch-manipulation"
-          >
-            <div className="flex items-start justify-between gap-3">
-              <div className="flex-1 min-w-0">
-                <h3 className="text-base sm:text-lg font-semibold text-gray-100 group-hover:text-purple-300 group-active:text-purple-300 transition-colors leading-tight">
-                  {session.title}
-                </h3>
-                <p className="text-sm sm:text-base text-gray-400 mt-2 line-clamp-2">
-                  {getSessionDescription(session.id)}
-                </p>
-                <div className="flex items-center justify-between mt-3 text-xs sm:text-sm gap-2 flex-wrap">
-                  <span className="text-purple-400 font-medium bg-purple-900/30 px-3 py-1.5 rounded-lg flex items-center gap-1.5">
-                    <Clock size={16} />
-                    {formatDuration(session.duration)}
-                  </span>
-                  <span className="text-gray-400 flex items-center gap-1.5 px-2">
-                    <PlayCircle size={16} />
-                    {session.phases.length} pasos
-                  </span>
+          <div className="grid gap-4 sm:gap-6">
+            {sessions.map((session, index) => (
+              <button
+                key={session.id}
+                onClick={() => onSelectSession(session)}
+                className="group relative overflow-hidden bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm border border-white/10 rounded-2xl p-5 sm:p-6 text-left hover:from-gray-700/80 hover:to-gray-800/80 hover:border-purple-500/50 active:scale-[0.98] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500/50 touch-manipulation animate-slide-up"
+                style={{
+                  animationDelay: `${index * 100}ms`
+                }}
+              >
+                {/* Background Gradient Effect */}
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-600/5 via-transparent to-pink-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                
+                {/* Content */}
+                <div className="relative">
+                  <div className="flex items-start gap-4">
+                    {/* Icon */}
+                    <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
+                      {getSessionIcon(session.id)}
+                    </div>
+                    
+                    {/* Content */}
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-lg sm:text-xl font-bold text-gray-100 group-hover:text-purple-200 transition-colors leading-tight mb-2">
+                        {session.title}
+                      </h3>
+                      <p className="text-sm sm:text-base text-gray-400 group-hover:text-gray-300 transition-colors leading-relaxed mb-4">
+                        {getSessionDescription(session.id)}
+                      </p>
+                      
+                      {/* Stats */}
+                      <div className="flex items-center gap-4 flex-wrap">
+                        <span className="inline-flex items-center gap-2 bg-purple-900/30 text-purple-300 px-3 py-2 rounded-lg text-sm font-medium border border-purple-700/30">
+                          <Clock size={16} />
+                          {formatDuration(session.duration)}
+                        </span>
+                        <span className="inline-flex items-center gap-2 bg-gray-800/50 text-gray-300 px-3 py-2 rounded-lg text-sm border border-gray-700/50">
+                          <PlayCircle size={16} />
+                          {session.phases.length} pasos
+                        </span>
+                      </div>
+                    </div>
+                    
+                    {/* Arrow */}
+                    <div className="flex-shrink-0 w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center group-hover:bg-purple-500/20 transition-colors duration-300">
+                      <svg className="w-4 h-4 text-gray-400 group-hover:text-purple-400 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </button>
+            ))}
+          </div>
+          
+          {/* Footer */}
+          <div className="mt-8">
+            <div className="bg-gradient-to-br from-purple-900/30 to-pink-900/30 backdrop-blur-sm border border-purple-700/30 rounded-2xl p-6 sm:p-8">
+              <div className="text-center space-y-4">
+                <div className="flex items-center justify-center gap-2 mb-4">
+                  <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                    <Sparkles className="w-4 h-4 text-white" />
+                  </div>
+                  <p className="text-lg font-semibold text-purple-200">
+                    Herramienta oficial del Seminario
+                  </p>
+                </div>
+                
+                <div className="grid gap-3 text-sm">
+                  <div className="flex items-center justify-center gap-2 text-gray-300">
+                    <Brain className="w-4 h-4 text-blue-400" />
+                    <span>Las palmaditas alternas ayudan a tu cerebro a procesar emociones difíciles</span>
+                  </div>
+                  <div className="flex items-center justify-center gap-2 text-gray-300">
+                    <Shield className="w-4 h-4 text-green-400" />
+                    <span>Si tienes traumas severos o te sientes muy mal, busca ayuda profesional</span>
+                  </div>
+                </div>
+                
+                <div className="pt-4 border-t border-white/10">
+                  <p className="text-xs text-gray-400">
+                    Seminario Internacional de Inteligencia Energética
+                  </p>
                 </div>
               </div>
-              {(session.id === 'emdr-protocolo-completo' || session.id === 'emdr-sesion-rapida' ||
-                session.id === 'emdr-recursos-positivos' || session.id === 'emdr-lugar-seguro' ||
-                session.id === 'emdr-procesamiento-rapido' || session.id === 'emdr-autocuidado-diario') && (
-                <div className="flex-shrink-0">
-                  <ButterflyIcon size="sm" className="text-purple-400 opacity-60 w-8 h-8" />
-                </div>
-              )}
             </div>
-          </button>
-        ))}
-      </div>
-      
-        <div className="mt-6 p-4 sm:p-5 bg-purple-900/20 border-2 border-purple-700/30 rounded-xl">
-          <p className="text-sm sm:text-base text-purple-200 text-center leading-relaxed">
-            🦋 Herramienta oficial del Seminario Internacional de Inteligencia Energética
-          </p>
-          <p className="text-xs sm:text-sm text-gray-400 text-center mt-3">
-            💡 Las palmaditas alternas ayudan a tu cerebro a procesar emociones difíciles
-          </p>
-          <p className="text-xs sm:text-sm text-gray-400 text-center mt-2">
-            ⚠️ Si tienes traumas severos o te sientes muy mal, busca ayuda profesional
-          </p>
+          </div>
         </div>
+      </div>
     </div>
   );
 };
