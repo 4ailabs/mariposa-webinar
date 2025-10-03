@@ -92,7 +92,7 @@ const SessionSelector: React.FC<SessionSelectorProps> = ({ sessions, onSelectSes
       case 'emdr-lugar-seguro':
         return 'bg-gradient-to-br from-green-500 to-green-600'; // Verde para lugar seguro
       case 'emdr-procesamiento-rapido':
-        return 'bg-gradient-to-br from-purple-500 to-purple-600'; // Púrpura para procesamiento rápido
+        return 'bg-gradient-to-br from-indigo-500 to-indigo-600'; // Índigo para procesamiento rápido
       case 'emdr-autocuidado-diario':
         return 'bg-gradient-to-br from-pink-500 to-pink-600'; // Rosa para autocuidado
       default:

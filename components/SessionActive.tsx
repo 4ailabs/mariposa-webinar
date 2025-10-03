@@ -152,7 +152,7 @@ const SessionActive: React.FC<SessionActiveProps> = ({ session, onComplete }) =>
                 <ButterflyIcon
                   size="sm"
                   isTransforming={butterflyTransforming}
-                  className="text-purple-400 w-6 h-6 sm:w-8 sm:h-8"
+                  className="text-blue-400 w-6 h-6 sm:w-8 sm:h-8"
                 />
               </div>
             )}
@@ -161,7 +161,7 @@ const SessionActive: React.FC<SessionActiveProps> = ({ session, onComplete }) =>
                 {currentPhase?.phrase || currentPhase?.text}
               </p>
               {currentPhase?.pauseDuration && (
-                <p className="text-base sm:text-lg text-purple-300 italic mt-4">
+                <p className="text-base sm:text-lg text-blue-300 italic mt-4">
                   Pausa: {currentPhase.pauseDuration} segundos
                 </p>
               )}
@@ -213,7 +213,7 @@ const SessionActive: React.FC<SessionActiveProps> = ({ session, onComplete }) =>
         <footer className="w-full mt-auto pt-4">
             <div className="h-2 sm:h-3 bg-gray-700 rounded-full overflow-hidden mb-3">
                 <div
-                    className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full transition-all duration-1000 ease-linear"
+                    className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full transition-all duration-1000 ease-linear"
                     style={{ width: `${progressPercentage}%` }}
                 />
             </div>
