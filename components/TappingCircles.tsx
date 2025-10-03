@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import type { TapSide } from '../types';
 import TapIndicator from './TapIndicator';
 
@@ -17,30 +17,55 @@ const TappingCircles: React.FC<TappingCirclesProps> = ({
   const [audioEnabled, setAudioEnabled] = useState(false);
   const [hasHeadphones, setHasHeadphones] = useState(false);
 
-  // Función para crear beep estéreo
-  const createStereoBeep = useCallback((side: TapSide, frequency: number = 800) => {
-    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
-    const pannerNode = audioContext.createStereoPanner();
+  // Variable para mantener el contexto de audio
+  const audioContextRef = useRef<AudioContext | null>(null);
+
+  // Función para obtener o crear el contexto de audio
+  const getAudioContext = useCallback(async () => {
+    if (!audioContextRef.current) {
+      audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+    }
     
-    oscillator.connect(gainNode);
-    gainNode.connect(pannerNode);
-    pannerNode.connect(audioContext.destination);
+    // Si el contexto está suspendido, intentar reanudarlo
+    if (audioContextRef.current.state === 'suspended') {
+      try {
+        await audioContextRef.current.resume();
+      } catch (error) {
+        console.log('No se pudo reanudar el contexto de audio:', error);
+      }
+    }
     
-    oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
-    oscillator.type = 'sine';
-    
-    // Configurar canal estéreo (izquierda = -1, derecha = 1)
-    pannerNode.pan.setValueAtTime(side === 'left' ? -1 : 1, audioContext.currentTime);
-    
-    gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-    gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.01);
-    gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.1);
-    
-    oscillator.start(audioContext.currentTime);
-    oscillator.stop(audioContext.currentTime + 0.1);
+    return audioContextRef.current;
   }, []);
+
+  // Función para crear beep estéreo
+  const createStereoBeep = useCallback(async (side: TapSide, frequency: number = 800) => {
+    try {
+      const audioContext = await getAudioContext();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      const pannerNode = audioContext.createStereoPanner();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(pannerNode);
+      pannerNode.connect(audioContext.destination);
+      
+      oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+      oscillator.type = 'sine';
+      
+      // Configurar canal estéreo (izquierda = -1, derecha = 1)
+      pannerNode.pan.setValueAtTime(side === 'left' ? -1 : 1, audioContext.currentTime);
+      
+      gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+      gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.01);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.1);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.1);
+    } catch (error) {
+      console.log('Error al reproducir audio:', error);
+    }
+  }, [getAudioContext]);
 
   // Función para vibración háptica
   const hapticTap = useCallback((side: TapSide) => {
@@ -53,7 +78,7 @@ const TappingCircles: React.FC<TappingCirclesProps> = ({
   useEffect(() => {
     const detectHeadphones = async () => {
       try {
-        const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+        const audioContext = await getAudioContext();
         const oscillator = audioContext.createOscillator();
         const gainNode = audioContext.createGain();
         
@@ -76,7 +101,7 @@ const TappingCircles: React.FC<TappingCirclesProps> = ({
     };
 
     detectHeadphones();
-  }, []);
+  }, [getAudioContext]);
 
   // Intervalo de tapping para feedback visual, háptico y audio
   useEffect(() => {
@@ -105,10 +130,26 @@ const TappingCircles: React.FC<TappingCirclesProps> = ({
   };
 
   const handleComplete = () => {
+    // Limpiar el contexto de audio
+    if (audioContextRef.current) {
+      audioContextRef.current.close();
+      audioContextRef.current = null;
+    }
+    
     if (onComplete) {
       onComplete();
     }
   };
+
+  // Limpiar el contexto de audio cuando el componente se desmonte
+  useEffect(() => {
+    return () => {
+      if (audioContextRef.current) {
+        audioContextRef.current.close();
+        audioContextRef.current = null;
+      }
+    };
+  }, []);
 
   return (
     <div className="w-full min-h-screen flex flex-col justify-center items-center bg-gray-900 text-gray-100 p-4">
