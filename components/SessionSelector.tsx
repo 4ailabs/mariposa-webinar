@@ -242,14 +242,60 @@ const SessionSelector: React.FC<SessionSelectorProps> = ({ sessions, onSelectSes
           </div>
           
           {/* Footer */}
-          <div className="mt-12 text-center space-y-4">
-            <p className="text-sm text-gray-400">
-              Las palmaditas alternas ayudan a tu cerebro a procesar emociones difíciles
-            </p>
-            <p className="text-xs text-gray-500">
-              ⚠️ Si tienes traumas severos o te sientes muy mal, busca ayuda profesional
-            </p>
-          </div>
+          <footer className="mt-12 border-t border-gray-800 pt-8">
+            <div className="text-center space-y-6">
+              {/* Información principal */}
+              <div className="space-y-3">
+                <p className="text-sm text-gray-400">
+                  Las palmaditas alternas ayudan a tu cerebro a procesar emociones difíciles
+                </p>
+                <p className="text-xs text-gray-500">
+                  ⚠️ Si tienes traumas severos o te sientes muy mal, busca ayuda profesional
+                </p>
+              </div>
+              
+              {/* Línea divisoria */}
+              <div className="border-t border-gray-800 pt-6">
+                <div className="flex flex-col items-center space-y-4">
+                  {/* Logo y nombre del seminario */}
+                  <div className="flex items-center gap-3">
+                    <img 
+                      src="/images/logo-seminario.png" 
+                      alt="Logo Seminario"
+                      className="w-8 h-8 object-contain"
+                    />
+                    <div className="text-center">
+                      <h3 className="text-sm font-semibold text-gray-300">
+                        Seminario Internacional de Inteligencia Energética
+                      </h3>
+                      <p className="text-xs text-gray-500">
+                        Herramienta Oficial
+                      </p>
+                    </div>
+                  </div>
+                  
+                  {/* Enlaces */}
+                  <div className="flex items-center gap-6 text-xs">
+                    <a 
+                      href="https://inteligencia-energetica.com" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1"
+                    >
+                      <Sparkles className="w-3 h-3" />
+                      inteligencia-energetica.com
+                    </a>
+                  </div>
+                  
+                  {/* Copyright */}
+                  <div className="text-xs text-gray-600">
+                    <p>© 2024 Seminario Internacional de Inteligencia Energética</p>
+                    <p className="mt-1">Todos los derechos reservados</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </footer>
         </div>
       </div>
 
