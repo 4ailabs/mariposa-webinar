@@ -180,7 +180,7 @@ const SessionSelector: React.FC<SessionSelectorProps> = ({ sessions, onSelectSes
               <button
                 key={session.id}
                 onClick={() => handleSessionClick(session)}
-                className={`group relative overflow-hidden ${isPremiumSession(session.id) && !isAuthenticated ? 'bg-gray-900 border-gray-600' : 'bg-gray-800 border-gray-700'} rounded-2xl p-6 sm:p-8 text-left hover:bg-gray-700 hover:border-gray-600 active:scale-[0.98] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500 touch-manipulation animate-slide-up`}
+                className={`group relative overflow-hidden ${isPremiumSession(session.id) && !isAuthenticated ? 'bg-gray-900 border-2 border-orange-500/50' : 'bg-gray-800 border border-gray-700'} rounded-2xl p-6 sm:p-8 text-left hover:bg-gray-700 hover:border-gray-600 active:scale-[0.98] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500 touch-manipulation animate-slide-up`}
                 style={{
                   animationDelay: `${index * 100}ms`
                 }}
