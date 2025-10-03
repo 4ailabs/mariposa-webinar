@@ -77,22 +77,22 @@ const SessionSelector: React.FC<SessionSelectorProps> = ({ sessions, onSelectSes
             
             {/* Title Section */}
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent mb-3">
-              Estimulación Bilateral
+              Estimulación Bilateral Autoguiada
             </h1>
             <h2 className="text-xl sm:text-2xl lg:text-3xl text-purple-200 font-medium mb-4">
               Herramienta del Seminario
             </h2>
             
             {/* Description */}
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 sm:p-6 mb-6">
-              <p className="text-gray-300 text-sm sm:text-base mb-2">
+            <div className="mb-6">
+              <p className="text-gray-300 text-sm sm:text-base mb-3">
                 Seminario Internacional de Inteligencia Energética
               </p>
               <a 
                 href="https://inteligencia-energetica.com" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors text-sm sm:text-base font-medium"
+                className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors text-sm sm:text-base font-medium underline decoration-blue-400/50 hover:decoration-blue-300"
               >
                 <Sparkles className="w-4 h-4" />
                 inteligencia-energetica.com
