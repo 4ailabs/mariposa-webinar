@@ -135,10 +135,10 @@ const SessionSelector: React.FC<SessionSelectorProps> = ({ sessions, onSelectSes
             </div>
             
             {/* Title Section */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-3">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-3">
               Estimulación Bilateral Autoguiada
             </h1>
-            <h2 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl text-gray-300 font-medium mb-4">
+            <h2 className="text-lg sm:text-xl lg:text-2xl text-gray-300 font-medium mb-4">
               Herramienta del Seminario
             </h2>
             
@@ -171,7 +171,7 @@ const SessionSelector: React.FC<SessionSelectorProps> = ({ sessions, onSelectSes
       {/* Sessions Section */}
       <div className="flex-1 px-4 pb-6">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-gray-100 mb-6 lg:mb-8 text-center">
+          <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold text-gray-100 mb-6 lg:mb-8 text-center">
             ¿Qué quieres trabajar hoy?
           </h2>
 
