@@ -330,13 +330,15 @@ const SessionSelector: React.FC<SessionSelectorProps> = ({ sessions, onSelectSes
                         </svg>
                       </a>
 
-                      <a
-                        href="mailto:contacto@inteligencia-energetica.com"
-                        className="group inline-flex items-center gap-2 px-4 py-2 text-xs sm:text-sm text-gray-400 hover:text-gray-300 transition-colors"
-                      >
-                        <Heart className="w-4 h-4 group-hover:text-pink-400 transition-colors" />
-                        Contacto
-                      </a>
+                       <a
+                         href="https://wa.me/+525579076626"
+                         target="_blank"
+                         rel="noopener noreferrer"
+                         className="group inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-600/20 to-emerald-600/20 hover:from-green-600/30 hover:to-emerald-600/30 border border-green-500/30 rounded-xl text-xs sm:text-sm text-green-300 hover:text-green-200 transition-all duration-300 hover:scale-105"
+                       >
+                         <Heart className="w-4 h-4 group-hover:text-green-400 transition-colors" />
+                         WhatsApp
+                       </a>
                     </div>
 
                     {/* Copyright */}
